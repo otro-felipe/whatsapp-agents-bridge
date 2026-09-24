@@ -12,8 +12,8 @@ export function assertPrivatePath(path: string, directory = false) {
   const script = `
 $ErrorActionPreference = 'Stop'
 try {
-  [Console]::InputEncoding = New-Object System.Text.UTF8Encoding
-  $path = [Console]::In.ReadToEnd()
+  $reader = New-Object System.IO.StreamReader([Console]::OpenStandardInput(), [System.Text.Encoding]::UTF8)
+  $path = $reader.ReadToEnd()
   $acl = Get-Acl -LiteralPath $path
   $sid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User
   $rules = @($acl.GetAccessRules($true, $true, [System.Security.Principal.SecurityIdentifier]))
