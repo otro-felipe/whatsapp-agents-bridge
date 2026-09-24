@@ -33,7 +33,13 @@ try {
     $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($sid, 'FullControl', $inheritance, 'None', 'Allow')
     $security.AddAccessRule($rule)
     $script:stage = 15
-    Set-Acl -LiteralPath $path -AclObject $security
+    # Persist only the modified DACL. Set-Acl also attempts to persist owner and
+    # group from a fresh descriptor, which are intentionally not being changed.
+    if ($item.PSIsContainer) {
+      [System.IO.Directory]::SetAccessControl($path, $security)
+    } else {
+      [System.IO.File]::SetAccessControl($path, $security)
+    }
     $script:stage = 16
     $actual = Get-Acl -LiteralPath $path
     $rules = @($actual.GetAccessRules($true, $true, [System.Security.Principal.SecurityIdentifier]))
