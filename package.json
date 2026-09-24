@@ -1,0 +1,51 @@
+{
+  "name": "whatsapp-agents-bridge",
+  "version": "0.1.0",
+  "description": "Local encrypted WhatsApp bridge with HTTP, durable events and MCP",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "whatsapp-agents-bridge": "dist/cli.js"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test \"test/*.test.ts\"",
+    "validate": "npm test && npm run check && npm run build",
+    "dev": "node --import tsx src/cli.ts",
+    "format": "prettier --write src test examples docs package.json tsconfig.json README.md AGENTS.md",
+    "format:check": "prettier --check src test examples docs package.json tsconfig.json README.md AGENTS.md"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@whiskeysockets/baileys": "7.0.0-rc14",
+    "pino": "9.14.0",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "prettier": "3.9.6",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otro-felipe/whatsapp-agents-bridge.git"
+  },
+  "homepage": "https://github.com/otro-felipe/whatsapp-agents-bridge#readme",
+  "bugs": {
+    "url": "https://github.com/otro-felipe/whatsapp-agents-bridge/issues"
+  }
+}

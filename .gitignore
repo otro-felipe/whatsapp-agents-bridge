@@ -1,0 +1,56 @@
+# Dependencies, builds and caches.
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+*.tsbuildinfo
+
+# Local bridge state, provider sessions and message archives.
+.data/
+.state/
+.runtime/
+auth_info*/
+*.sqlite*
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.jsonl
+logs/
+
+# Private diagnostics, backups and agent configuration.
+/reports/
+/memory/
+/journal/
+/.codex/
+backups/
+*.bak
+*.backup
+*.orig
+
+# Environment files, credentials and signing material.
+.env*
+!.env.example
+.dev.vars*
+!.dev.vars.example
+.npmrc
+.netrc
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*.keystore
+*.keychain*
+*.local
+*.local.*
+
+# Local editor/OS state and archives.
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*.zip
+*.tar.gz

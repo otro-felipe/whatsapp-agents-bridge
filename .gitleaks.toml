@@ -1,0 +1,4 @@
+title = "WhatsApp Agents Bridge public source scan"
+
+[extend]
+useDefault = true
