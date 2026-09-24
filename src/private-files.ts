@@ -41,7 +41,12 @@ try {
       [System.IO.File]::SetAccessControl($path, $security)
     }
     $script:stage = 16
-    $actual = Get-Acl -LiteralPath $path
+    if ($item.PSIsContainer) {
+      $actual = [System.IO.Directory]::GetAccessControl($path)
+    } else {
+      $actual = [System.IO.File]::GetAccessControl($path)
+    }
+    $script:stage = 18
     $rules = @($actual.GetAccessRules($true, $true, [System.Security.Principal.SecurityIdentifier]))
     $script:stage = 21
     if (!$actual.AreAccessRulesProtected) { throw 'acl' }
@@ -76,6 +81,7 @@ const windowsFailureStages: Record<number, string> = {
   15: "acl-write",
   16: "acl-verification",
   17: "children",
+  18: "acl-rule-read",
   21: "acl-protection",
   22: "acl-rule-count",
   23: "acl-principal",
