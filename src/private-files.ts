@@ -43,9 +43,21 @@ try {
     $script:stage = 16
     $actual = Get-Acl -LiteralPath $path
     $rules = @($actual.GetAccessRules($true, $true, [System.Security.Principal.SecurityIdentifier]))
-    if (!$actual.AreAccessRulesProtected -or $rules.Count -ne 1) { throw 'acl' }
+    $script:stage = 21
+    if (!$actual.AreAccessRulesProtected) { throw 'acl' }
+    $script:stage = 22
+    if ($rules.Count -ne 1) { throw 'acl' }
     $actualRule = $rules[0]
-    if ($actualRule.IdentityReference -ne $sid -or $actualRule.AccessControlType -ne 'Allow' -or $actualRule.FileSystemRights -ne 'FullControl' -or $actualRule.InheritanceFlags -ne $inheritance -or $actualRule.PropagationFlags -ne 'None') { throw 'acl' }
+    $script:stage = 23
+    if ($actualRule.IdentityReference -ne $sid) { throw 'acl' }
+    $script:stage = 24
+    if ($actualRule.AccessControlType -ne 'Allow') { throw 'acl' }
+    $script:stage = 25
+    if ($actualRule.FileSystemRights -ne 'FullControl') { throw 'acl' }
+    $script:stage = 26
+    if ($actualRule.InheritanceFlags -ne $inheritance) { throw 'acl' }
+    $script:stage = 27
+    if ($actualRule.PropagationFlags -ne 'None') { throw 'acl' }
     if ($item.PSIsContainer) {
       $script:stage = 17
       foreach ($child in @(Get-ChildItem -Force -LiteralPath $path)) { Protect-Path $child.FullName }
@@ -64,6 +76,13 @@ const windowsFailureStages: Record<number, string> = {
   15: "acl-write",
   16: "acl-verification",
   17: "children",
+  21: "acl-protection",
+  22: "acl-rule-count",
+  23: "acl-principal",
+  24: "acl-access-type",
+  25: "acl-rights",
+  26: "acl-inheritance",
+  27: "acl-propagation",
 };
 
 /** The directory must be dedicated to bridge storage, never a shared folder. */
